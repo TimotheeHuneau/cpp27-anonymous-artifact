@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>FOL.Core.Tarski</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library FOL.Core.Tarski</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a id="lab1"></a><h2 class="section">Tarski Semantics</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">FOL</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Export</span> <a class="idref" href="FOL.Core.Syntax.html#"><span class="id" title="library">Core.Syntax</span></a>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Vector</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Set Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="var">Abbreviation</span> <a id="vec" class="idref" href="#vec"><span class="id" title="abbreviation">vec</span></a> := <span class="id" title="inductive">Vector.t</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Import</span> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax"><span class="id" title="module">FullSyntax</span></a>.<br/>
+<span class="id" title="keyword">Export</span> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax"><span class="id" title="module">FullSyntax</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="Tarski" class="idref" href="#Tarski"><span class="id" title="section">Tarski</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="529c87eedeabac0b104448067d1dfa34" class="idref" href="#529c87eedeabac0b104448067d1dfa34"><span class="id" title="variable">Σ_funcs</span></a> : <a class="idref" href="FOL.Core.Syntax.html#funcs_signature"><span class="id" title="class">funcs_signature</span></a>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="534bc2ee7fe2948374fe88ec19e811ea" class="idref" href="#534bc2ee7fe2948374fe88ec19e811ea"><span class="id" title="variable">Σ_preds</span></a> : <a class="idref" href="FOL.Core.Syntax.html#preds_signature"><span class="id" title="class">preds_signature</span></a>}.<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Section</span> <a id="Tarski.Semantics" class="idref" href="#Tarski.Semantics"><span class="id" title="section">Semantics</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Variable</span> <a id="Tarski.Semantics.domain" class="idref" href="#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a> : <span class="id" title="keyword">Type</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Class</span> <a id="interp" class="idref" href="#interp"><span class="id" title="record">interp</span></a> := <span class="id" title="var">B_I</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="i_func" class="idref" href="#i_func"><span class="id" title="projection">i_func</span></a> : <span class="id" title="keyword">∀</span> <a id="f:6" class="idref" href="#f:6"><span class="id" title="binder">f</span></a> : <a class="idref" href="FOL.Core.Syntax.html#syms"><span class="id" title="method">syms</span></a>, <a class="idref" href="FOL.Core.Tarski.html#vec"><span class="id" title="abbreviation">vec</span></a> <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a> (<a class="idref" href="FOL.Core.Syntax.html#ar_syms"><span class="id" title="method">ar_syms</span></a> <a class="idref" href="FOL.Core.Tarski.html#f:6"><span class="id" title="variable">f</span></a>) <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="i_atom" class="idref" href="#i_atom"><span class="id" title="projection">i_atom</span></a> : <span class="id" title="keyword">∀</span> <a id="P:8" class="idref" href="#P:8"><span class="id" title="binder">P</span></a> : <a class="idref" href="FOL.Core.Syntax.html#preds"><span class="id" title="method">preds</span></a>, <a class="idref" href="FOL.Core.Tarski.html#vec"><span class="id" title="abbreviation">vec</span></a> <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a> (<a class="idref" href="FOL.Core.Syntax.html#ar_preds"><span class="id" title="method">ar_preds</span></a> <a class="idref" href="FOL.Core.Tarski.html#P:8"><span class="id" title="variable">P</span></a>) <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Prop</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="env" class="idref" href="#env"><span class="id" title="definition">env</span></a> := <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="Tarski.Semantics.I" class="idref" href="#Tarski.Semantics.I"><span class="id" title="variable">I</span></a> : <a class="idref" href="FOL.Core.Tarski.html#interp"><span class="id" title="class">interp</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Fixpoint</span> <a id="eval" class="idref" href="#eval"><span class="id" title="definition">eval</span></a> (<a id="rho:11" class="idref" href="#rho:11"><span class="id" title="binder">rho</span></a> : <a class="idref" href="FOL.Core.Tarski.html#env"><span class="id" title="definition">env</span></a>) (<a id="t:12" class="idref" href="#t:12"><span class="id" title="binder">t</span></a> : <a class="idref" href="FOL.Core.Syntax.html#term"><span class="id" title="inductive">term</span></a>) : <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="FOL.Core.Tarski.html#t:12"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#var"><span class="id" title="constructor">var</span></a> <span class="id" title="var">s</span> ⇒ <a class="idref" href="FOL.Core.Tarski.html#rho:11"><span class="id" title="variable">rho</span></a> <span class="id" title="var">s</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#func"><span class="id" title="constructor">func</span></a> <span class="id" title="var">f</span> <span class="id" title="var">v</span> ⇒ <a class="idref" href="FOL.Core.Tarski.html#i_func"><span class="id" title="method">i_func</span></a> (<span class="id" title="definition">Vector.map</span> (<a class="idref" href="FOL.Core.Tarski.html#eval:13"><span class="id" title="definition">eval</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:11"><span class="id" title="variable">rho</span></a>) <span class="id" title="var">v</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Fixpoint</span> <a id="sat" class="idref" href="#sat"><span class="id" title="definition">sat</span></a> {<a id="ff:15" class="idref" href="#ff:15"><span class="id" title="binder">ff</span></a> : <a class="idref" href="FOL.Core.Syntax.html#falsity_flag"><span class="id" title="class">falsity_flag</span></a>} (<a id="rho:16" class="idref" href="#rho:16"><span class="id" title="binder">rho</span></a> : <a class="idref" href="FOL.Core.Tarski.html#env"><span class="id" title="definition">env</span></a>) (<a id="phi:17" class="idref" href="#phi:17"><span class="id" title="binder">phi</span></a> : <a class="idref" href="FOL.Core.Syntax.html#form"><span class="id" title="inductive">form</span></a>) : <span class="id" title="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="FOL.Core.Tarski.html#phi:17"><span class="id" title="variable">phi</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#atom"><span class="id" title="constructor">atom</span></a> <span class="id" title="var">P</span> <span class="id" title="var">v</span> ⇒ <a class="idref" href="FOL.Core.Tarski.html#i_atom"><span class="id" title="method">i_atom</span></a> (<span class="id" title="definition">Vector.map</span> (<a class="idref" href="FOL.Core.Tarski.html#eval"><span class="id" title="definition">eval</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a>) <span class="id" title="var">v</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#falsity"><span class="id" title="constructor">falsity</span></a> ⇒ <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#False"><span class="id" title="inductive">False</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#bin"><span class="id" title="constructor">bin</span></a> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax.Impl"><span class="id" title="constructor">Impl</span></a> <span class="id" title="var">phi</span> <span class="id" title="var">psi</span> ⇒ <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a> <a class="idref" href="FOL.Core.Tarski.html#phi:17"><span class="id" title="variable">phi</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a> <span class="id" title="var">psi</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#bin"><span class="id" title="constructor">bin</span></a> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax.Conj"><span class="id" title="constructor">Conj</span></a> <span class="id" title="var">phi</span> <span class="id" title="var">psi</span> ⇒ <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a> <a class="idref" href="FOL.Core.Tarski.html#phi:17"><span class="id" title="variable">phi</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">∧</span></a> <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a> <span class="id" title="var">psi</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#bin"><span class="id" title="constructor">bin</span></a> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax.Disj"><span class="id" title="constructor">Disj</span></a> <span class="id" title="var">phi</span> <span class="id" title="var">psi</span> ⇒ <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a> <a class="idref" href="FOL.Core.Tarski.html#phi:17"><span class="id" title="variable">phi</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#f031fe1957c4a4a8e217aa46af2b4e25"><span class="id" title="notation">∨</span></a> <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a> <span class="id" title="var">psi</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#quant"><span class="id" title="constructor">quant</span></a> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax.All"><span class="id" title="constructor">All</span></a> <span class="id" title="var">phi</span> ⇒ <span class="id" title="keyword">∀</span> <a id="d:20" class="idref" href="#d:20"><span class="id" title="binder">d</span></a> : <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a>, <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> (<a class="idref" href="FOL.Core.Tarski.html#d:20"><span class="id" title="variable">d</span></a> <a class="idref" href="FOL.Core.Syntax.html#::subst_scope:x_'.:'_x"><span class="id" title="notation">.:</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a>) <a class="idref" href="FOL.Core.Tarski.html#phi:17"><span class="id" title="variable">phi</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FOL.Core.Syntax.html#quant"><span class="id" title="constructor">quant</span></a> <a class="idref" href="FOL.Core.Syntax.html#FullSyntax.Ex"><span class="id" title="constructor">Ex</span></a> <span class="id" title="var">phi</span> ⇒ <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">∃</span></a> <a id="d:21" class="idref" href="#d:21"><span class="id" title="binder">d</span></a> : <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics.domain"><span class="id" title="variable">domain</span></a><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">,</span></a> <a class="idref" href="FOL.Core.Tarski.html#sat:18"><span class="id" title="definition">sat</span></a> (<a class="idref" href="FOL.Core.Tarski.html#d:21"><span class="id" title="variable">d</span></a> <a class="idref" href="FOL.Core.Syntax.html#::subst_scope:x_'.:'_x"><span class="id" title="notation">.:</span></a> <a class="idref" href="FOL.Core.Tarski.html#rho:16"><span class="id" title="variable">rho</span></a>) <a class="idref" href="FOL.Core.Tarski.html#phi:17"><span class="id" title="variable">phi</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">End</span> <a class="idref" href="FOL.Core.Tarski.html#Tarski.Semantics"><span class="id" title="section">Semantics</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Notation</span> <a id="837934bdbc834c59ec5572e26838083d" class="idref" href="#837934bdbc834c59ec5572e26838083d"><span class="id" title="notation">&quot;</span></a>rho ⊨ phi" := (<a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> <span class="id" title="var">rho</span> <span class="id" title="var">phi</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="FOL.Core.Tarski.html#Tarski"><span class="id" title="section">Tarski</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span>, {<span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span> {<span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Tarski.html#interp"><span class="id" title="class">interp</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span>, <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Declare Scope</span> <span class="id" title="var">full_notations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="8ac9c326943ab7e8cfc03be833252133" class="idref" href="#8ac9c326943ab7e8cfc03be833252133"><span class="id" title="notation">&quot;</span></a>p ⊨ phi" := (<a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p</span> <span class="id" title="var">phi</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20) : <span class="id" title="var">full_notations</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="45b6f60e5f3e3457dd808e28ea9eb7b5" class="idref" href="#45b6f60e5f3e3457dd808e28ea9eb7b5"><span class="id" title="notation">&quot;</span></a>I ⊨= phi" := (<span class="id" title="keyword">∀</span> <a id="p:22" class="idref" href="#p:22"><span class="id" title="binder">p</span></a>, <a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> <span class="id" title="var">I</span> <a class="idref" href="FOL.Core.Tarski.html#p:22"><span class="id" title="variable">p</span></a> <span class="id" title="var">phi</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20) : <span class="id" title="var">full_notations</span>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

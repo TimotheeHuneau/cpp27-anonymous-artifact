@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>FOL.DLS.ReverseAnalysisDLS</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library FOL.DLS.ReverseAnalysisDLS</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="FOL.DLS.Defs.html#"><span class="id" title="library">FOL.DLS.Defs</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="FOL.DLS.DLSfw.html#"><span class="id" title="library">FOL.DLS.DLSfw</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="FOL.DLS.DLSbw.html#"><span class="id" title="library">FOL.DLS.DLSbw</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Existing Instance</span> <a class="idref" href="FOL.Core.Syntax.html#falsity_on"><span class="id" title="constructor">falsity_on</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a id="main_result" class="idref" href="#main_result"><span class="id" title="lemma">main_result</span></a>: <a class="idref" href="FOL.DLS.Defs.html#DLS_iff_BEP_BDP_BAC_DDC"><span class="id" title="definition">DLS_iff_BEP_BDP_BAC_DDC</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">K</span> [<span class="id" title="var">siK</span>]. <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> [[<span class="id" title="var">bdp</span> <span class="id" title="var">bep</span>] [<span class="id" title="var">ddc</span> <span class="id" title="var">bac</span>]] <span class="id" title="var">s_f</span> <span class="id" title="var">s_P</span> <span class="id" title="var">p0</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="FOL.DLS.DLSfw.html#DLS_of_BAC_DDC_BDP_BEP"><span class="id" title="lemma">DLS_of_BAC_DDC_BDP_BEP</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">all</span>: <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="FOL.DLS.DLSbw.html#BDP_of_DLS1"><span class="id" title="lemma">BDP_of_DLS1</span></a> (<span class="id" title="var">H</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="FOL.DLS.DLSbw.html#BEP_of_DLS1"><span class="id" title="lemma">BEP_of_DLS1</span></a> (<span class="id" title="var">H</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="FOL.DLS.DLSbw.html#DDC_of_DLS1"><span class="id" title="lemma">DDC_of_DLS1</span></a> (<span class="id" title="var">H</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="FOL.DLS.DLSbw.html#BAC_of_DLSK"><span class="id" title="lemma">BAC_of_DLSK</span></a> (<span class="id" title="var">H</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Assumptions</span> <a class="idref" href="FOL.DLS.ReverseAnalysisDLS.html#main_result"><span class="id" title="lemma">main_result</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="FOL.DLS.Retracts.html#"><span class="id" title="library">FOL.DLS.Retracts</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="is_Kirst_and_Zeng_generalisation" class="idref" href="#is_Kirst_and_Zeng_generalisation"><span class="id" title="lemma">is_Kirst_and_Zeng_generalisation</span></a>:<br/>
+<a class="idref" href="FOL.DLS.Defs.html#DLS_iff_BEP_BDP_BAC_DDC"><span class="id" title="definition">DLS_iff_BEP_BDP_BAC_DDC</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a><br/>
+<a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#::type_scope:x_'&lt;-&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><a class="idref" href="FOL.DLS.Defs.html#BDP"><span class="id" title="definition">BDP</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">∧</span></a> <a class="idref" href="FOL.DLS.Defs.html#BEP"><span class="id" title="definition">BEP</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">∧</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><a class="idref" href="FOL.DLS.Defs.html#DDC"><span class="id" title="definition">DDC</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">∧</span></a> <a class="idref" href="FOL.DLS.Defs.html#BAC"><span class="id" title="definition">BAC</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#::type_scope:x_'&lt;-&gt;'_x"><span class="id" title="notation">)</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#::type_scope:x_'&lt;-&gt;'_x"><span class="id" title="notation">↔</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#::type_scope:x_'&lt;-&gt;'_x"><span class="id" title="notation">(</span></a><span class="id" title="keyword">∀</span> (<a id="s_f:1" class="idref" href="#s_f:1"><span class="id" title="binder">s_f</span></a>: <a class="idref" href="FOL.Core.Syntax.html#funcs_signature"><span class="id" title="class">funcs_signature</span></a>) (<a id="s_P:2" class="idref" href="#s_P:2"><span class="id" title="binder">s_P</span></a>: <a class="idref" href="FOL.Core.Syntax.html#preds_signature"><span class="id" title="class">preds_signature</span></a>), <a class="idref" href="FOL.DLS.ReverseAnalysisDLS.html#s_P:2"><span class="id" title="variable">s_P</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="FOL.DLS.ReverseAnalysisDLS.html#s_f:1"><span class="id" title="variable">s_f</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#e03f39daf98516fa530d3f6f5a1b4d92"><span class="id" title="notation">+</span></a> <a class="idref" href="FOL.DLS.ReverseAnalysisDLS.html#s_P:2"><span class="id" title="variable">s_P</span></a> <a class="idref" href="FOL.DLS.Defs.html#537afb1c5e33375efadb37ad0cbc780c"><span class="id" title="notation">≤</span></a><a class="idref" href="FOL.DLS.Defs.html#537afb1c5e33375efadb37ad0cbc780c"><span class="id" title="notation">R</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="FOL.DLS.Defs.html#DLS"><span class="id" title="definition">DLS</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#::type_scope:x_'&lt;-&gt;'_x"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> (<span class="id" title="var">H</span> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> (<a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#inhabits"><span class="id" title="constructor">inhabits</span></a> <span class="id" title="var">_</span>)) <span class="id" title="keyword">as</span> [<span class="id" title="var">Hl</span> <span class="id" title="var">Hr</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">all</span>: <span class="id" title="tactic">intros</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;1: <span class="id" title="tactic">apply</span> <span class="id" title="var">Hl</span>.<br/>
+&nbsp;&nbsp;2: <span class="id" title="tactic">apply</span> <span class="id" title="var">Hr</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">all</span>: <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

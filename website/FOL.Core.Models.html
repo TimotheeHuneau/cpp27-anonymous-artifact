@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>FOL.Core.Models</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library FOL.Core.Models</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Export</span> <a class="idref" href="FOL.Core.Tarski.html#"><span class="id" title="library">FOL.Core.Tarski</span></a>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Export</span> <span class="id" title="library">Vector</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Set Implicit Arguments</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Declare Scope</span> <span class="id" title="var">modelNotation</span>.<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">modelNotation</span>.<br/>
+
+<br/>
+<span class="id" title="var">Abbreviation</span> <a id="vec" class="idref" href="#vec"><span class="id" title="abbreviation">vec</span></a> := <span class="id" title="inductive">t</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab2"></a><h1 class="section">Definition of Model Theory</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="model" class="idref" href="#model"><span class="id" title="section">model</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="ca869915d46bd16e1020c407975c6bf4" class="idref" href="#ca869915d46bd16e1020c407975c6bf4"><span class="id" title="variable">Σ_funcs</span></a> : <a class="idref" href="FOL.Core.Syntax.html#funcs_signature"><span class="id" title="class">funcs_signature</span></a>}.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="8558a1a2d814c9917fcc9a98195fcf8c" class="idref" href="#8558a1a2d814c9917fcc9a98195fcf8c"><span class="id" title="variable">Σ_preds</span></a> : <a class="idref" href="FOL.Core.Syntax.html#preds_signature"><span class="id" title="class">preds_signature</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Structure</span> <a id="model" class="idref" href="#model"><span class="id" title="record">model</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="domain" class="idref" href="#domain"><span class="id" title="projection">domain</span></a> : <span class="id" title="keyword">Type</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="interp'" class="idref" href="#interp'"><span class="id" title="projection">interp'</span></a> : <a class="idref" href="FOL.Core.Tarski.html#interp"><span class="id" title="class">interp</span></a> <a class="idref" href="FOL.Core.Models.html#domain:4"><span class="id" title="method">domain</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Coercion</span> <a class="idref" href="FOL.Core.Models.html#domain"><span class="id" title="projection">domain</span></a> <a class="idref" href="FOL.Core.Models.html#domain"><span class="id" title="projection">:</span></a> <a class="idref" href="FOL.Core.Models.html#domain"><span class="id" title="projection">model</span></a> <a class="idref" href="FOL.Core.Models.html#domain"><span class="id" title="projection">&gt;-&gt;</span></a> <a class="idref" href="FOL.Core.Models.html#domain"><span class="id" title="projection">Sortclass</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="FOL.Core.Models.html#model"><span class="id" title="section">model</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Tarski.html#eval"><span class="id" title="definition">eval</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span>}.<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Tarski.html#i_func"><span class="id" title="method">i_func</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Tarski.html#i_atom"><span class="id" title="method">i_atom</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span>, {<span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span> {<span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="FOL.Core.Models.html#interp'"><span class="id" title="projection">interp'</span></a> {<span class="id" title="var">_</span> <span class="id" title="var">_</span>} <span class="id" title="var">_</span>, {<span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>}.<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Notation</span> <a id="074bd344310243bdaac30dc0dc9eac3a" class="idref" href="#074bd344310243bdaac30dc0dc9eac3a"><span class="id" title="notation">&quot;</span></a>func ₕ[ M ] v" := (<a class="idref" href="FOL.Core.Tarski.html#i_func"><span class="id" title="method">i_func</span></a> <span class="id" title="var">_</span> (<a class="idref" href="FOL.Core.Models.html#interp'"><span class="id" title="projection">interp'</span></a> <span class="id" title="var">M</span>) <span class="id" title="var">func</span> <span class="id" title="var">v</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 19).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Notation</span> <a id="6937fbfcb6f00c720fadb37b4dfbca73" class="idref" href="#6937fbfcb6f00c720fadb37b4dfbca73"><span class="id" title="notation">&quot;</span></a>pred ₚ[ M ] v" := (<a class="idref" href="FOL.Core.Tarski.html#i_atom"><span class="id" title="method">i_atom</span></a> <span class="id" title="var">_</span> (<a class="idref" href="FOL.Core.Models.html#interp'"><span class="id" title="projection">interp'</span></a> <span class="id" title="var">M</span>) <span class="id" title="var">pred</span> <span class="id" title="var">v</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 19).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Notation</span> <a id="21b4487eda7900e6243cb42c840f29bd" class="idref" href="#21b4487eda7900e6243cb42c840f29bd"><span class="id" title="notation">&quot;</span></a>term ₜ[ M ] env" := (<a class="idref" href="FOL.Core.Tarski.html#eval"><span class="id" title="definition">eval</span></a> <span class="id" title="var">_</span> (<a class="idref" href="FOL.Core.Models.html#interp'"><span class="id" title="projection">interp'</span></a> <span class="id" title="var">M</span>) <span class="id" title="var">env</span> <span class="id" title="var">term</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 19).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Notation</span> <a id="fbdad03a0b9b4f926d250c8965c30da7" class="idref" href="#fbdad03a0b9b4f926d250c8965c30da7"><span class="id" title="notation">&quot;</span></a>Model ⊨[_] phi" := (<span class="id" title="keyword">∀</span> <a id="p:6" class="idref" href="#p:6"><span class="id" title="binder">p</span></a>, <a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> (<a class="idref" href="FOL.Core.Models.html#interp'"><span class="id" title="projection">interp'</span></a> <span class="id" title="var">Model</span>) <a class="idref" href="FOL.Core.Models.html#p:6"><span class="id" title="variable">p</span></a> <span class="id" title="var">phi</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 21).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Notation</span> <a id="cbf2a9e72f9db1cd66448ba211231407" class="idref" href="#cbf2a9e72f9db1cd66448ba211231407"><span class="id" title="notation">&quot;</span></a>Model ⊨[ ρ ] phi" := (<a class="idref" href="FOL.Core.Tarski.html#sat"><span class="id" title="definition">sat</span></a> (<a class="idref" href="FOL.Core.Models.html#interp'"><span class="id" title="projection">interp'</span></a> <span class="id" title="var">Model</span>) ρ <span class="id" title="var">phi</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 21).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="Elementary" class="idref" href="#Elementary"><span class="id" title="section">Elementary</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="59c1a85dbe3cb8a5bb8710be67cd24b6" class="idref" href="#59c1a85dbe3cb8a5bb8710be67cd24b6"><span class="id" title="variable">Σ_funcs</span></a> : <a class="idref" href="FOL.Core.Syntax.html#funcs_signature"><span class="id" title="class">funcs_signature</span></a>}.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="a357c7c3880b8e68ee1a58d054e9bf62" class="idref" href="#a357c7c3880b8e68ee1a58d054e9bf62"><span class="id" title="variable">Σ_preds</span></a> : <a class="idref" href="FOL.Core.Syntax.html#preds_signature"><span class="id" title="class">preds_signature</span></a>}.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="Elementary.ff" class="idref" href="#Elementary.ff"><span class="id" title="variable">ff</span></a> : <a class="idref" href="FOL.Core.Syntax.html#falsity_flag"><span class="id" title="class">falsity_flag</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="elementary_homomorphism" class="idref" href="#elementary_homomorphism"><span class="id" title="definition">elementary_homomorphism</span></a> (<a id="M:10" class="idref" href="#M:10"><span class="id" title="binder">M</span></a> <a id="N:11" class="idref" href="#N:11"><span class="id" title="binder">N</span></a>: <a class="idref" href="FOL.Core.Models.html#model"><span class="id" title="record">model</span></a>) (<a id="h:12" class="idref" href="#h:12"><span class="id" title="binder">h</span></a>: <a class="idref" href="FOL.Core.Models.html#M:10"><span class="id" title="variable">M</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="FOL.Core.Models.html#N:11"><span class="id" title="variable">N</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <a id="phi:13" class="idref" href="#phi:13"><span class="id" title="binder">phi</span></a> <a id="438d9d966041835e9a2cdda7e9d0af67" class="idref" href="#438d9d966041835e9a2cdda7e9d0af67"><span class="id" title="binder">ρ</span></a>, <a class="idref" href="FOL.Core.Models.html#M:10"><span class="id" title="variable">M</span></a> <a class="idref" href="FOL.Core.Models.html#cbf2a9e72f9db1cd66448ba211231407"><span class="id" title="notation">⊨[</span></a><a class="idref" href="FOL.Core.Models.html#438d9d966041835e9a2cdda7e9d0af67"><span class="id" title="variable">ρ</span></a><a class="idref" href="FOL.Core.Models.html#cbf2a9e72f9db1cd66448ba211231407"><span class="id" title="notation">]</span></a> <a class="idref" href="FOL.Core.Models.html#phi:13"><span class="id" title="variable">phi</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#::type_scope:x_'&lt;-&gt;'_x"><span class="id" title="notation">↔</span></a> <a class="idref" href="FOL.Core.Models.html#N:11"><span class="id" title="variable">N</span></a> <a class="idref" href="FOL.Core.Models.html#cbf2a9e72f9db1cd66448ba211231407"><span class="id" title="notation">⊨[</span></a><a class="idref" href="FOL.Core.Models.html#438d9d966041835e9a2cdda7e9d0af67"><span class="id" title="variable">ρ</span></a> <a class="idref" href="FOL.Core.Syntax.html#::subst_scope:x_'&gt;&gt;'_x"><span class="id" title="notation">&gt;&gt;</span></a> <a class="idref" href="FOL.Core.Models.html#h:12"><span class="id" title="variable">h</span></a><a class="idref" href="FOL.Core.Models.html#cbf2a9e72f9db1cd66448ba211231407"><span class="id" title="notation">]</span></a> <a class="idref" href="FOL.Core.Models.html#phi:13"><span class="id" title="variable">phi</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="FOL.Core.Models.html#Elementary"><span class="id" title="section">Elementary</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="2f3359d8800c08a0e1939a37a63ffb81" class="idref" href="#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">&quot;</span></a>N ⪳[ h ] M"  := (@<a class="idref" href="FOL.Core.Models.html#elementary_homomorphism"><span class="id" title="definition">elementary_homomorphism</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">N</span> <span class="id" title="var">M</span> <span class="id" title="var">h</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 30).<br/>
+<span class="id" title="keyword">Notation</span> <a id="9d2dc9e73cec3b84a912e67359a7a459" class="idref" href="#9d2dc9e73cec3b84a912e67359a7a459"><span class="id" title="notation">&quot;</span></a>N ⪳ M"  := (<a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">∃</span></a> <a id="h:15" class="idref" href="#h:15"><span class="id" title="binder">h</span></a>: <span class="id" title="var">N</span> <a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Notations.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <span class="id" title="var">M</span><a class="idref" href="http://rocq-prover.org/doc/V9.2/corelib//Corelib.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">,</span></a> <a class="idref" href="FOL.Core.Models.html#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">(</span></a><span class="id" title="var">N</span> % <span class="id" title="keyword">type</span><a class="idref" href="FOL.Core.Models.html#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">)</span></a> <a class="idref" href="FOL.Core.Models.html#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">⪳[</span></a> <a class="idref" href="FOL.Core.Models.html#h:15"><span class="id" title="variable">h</span></a> <a class="idref" href="FOL.Core.Models.html#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">]</span></a> <a class="idref" href="FOL.Core.Models.html#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">(</span></a><span class="id" title="var">M</span> % <span class="id" title="keyword">type</span><a class="idref" href="FOL.Core.Models.html#2f3359d8800c08a0e1939a37a63ffb81"><span class="id" title="notation">)</span></a>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 30).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

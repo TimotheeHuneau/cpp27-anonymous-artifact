@@ -1,0 +1,5 @@
+opam-version: "2.0"
+depends: [
+  "rocq-equations" {>= "1.2"}
+  "rocq-core" {= "9.2.0"}
+]
