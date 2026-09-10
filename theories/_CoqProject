@@ -9,8 +9,9 @@ Core/Syntax.v
 Core/Tarski.v
 Core/Models.v
 
-DLS/Retracts.v
 DLS/Defs.v
+DLS/LogicalPrinciples.v
+DLS/Retracts.v
 DLS/Utils.v
 DLS/Signatures.v
 DLS/SubsetsDefs.v

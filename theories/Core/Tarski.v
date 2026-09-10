@@ -1,5 +1,3 @@
-(** ** Tarski Semantics *)
-
 From FOL Require Export Core.Syntax.
 From Stdlib Require Import Vector.
 
@@ -10,8 +8,6 @@ Local Abbreviation vec := Vector.t.
 
 Import FullSyntax.
 Export FullSyntax.
-
-(* Tarski Semantics ***)
 
 Section Tarski.
 
@@ -63,6 +59,3 @@ Arguments interp {_ _} _, _ _ _.
 Declare Scope full_notations.
 
 Notation "p ⊨ phi" := (sat _ p phi) (at level 20) : full_notations.
-Notation "I ⊨= phi" := (forall p, sat I p phi) (at level 20) : full_notations.
-
-

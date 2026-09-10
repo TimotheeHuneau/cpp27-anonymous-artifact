@@ -1,5 +1,3 @@
-(* The goal of this file is to work out some results on
-the logic side of the reverse analysis *)
 Require Import FOL.DLS.Defs.
 Require Import FOL.DLS.Retracts.
 

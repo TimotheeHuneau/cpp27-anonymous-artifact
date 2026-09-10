@@ -20,17 +20,18 @@ Section TarskiVaught.
     Abbreviation z := (X_mul_X_retr_X_of_si_X siK).
     Abbreviation k0 := (X_of_si_X siK).
 
-    Definition TVall {fff: falsity_flag} (A B: smallsubset M K) :=
+    Definition TVall {ffff: falsity_flag} (A B: smallsubset M K) :=
     forall (phi: form) (va: vec (termK K) (form_max_var (∀ phi))),
     (forall b: K, (sat' m0 phi (cons _ (B b) _ (map (closure A) va)))) ->
     (sat' m0 (∀ phi) (map (closure A) va)).
 
-    Definition TVex {fff: falsity_flag} (A B: smallsubset M K) :=
+    Definition TVex {ffff: falsity_flag} (A B: smallsubset M K) :=
     forall (phi: form) (va: vec (termK K) (form_max_var (∃ phi))),
     (sat' m0 (∃ phi) (map (closure A) va)) ->
     (exists b: K, (sat' m0 phi (cons _ (B b) _ (map (closure A) va)))).
 
-    Definition TV {fff: falsity_flag} (A B: smallsubset M K) := included A B /\ (TVex A B /\ TVall A B).
+    Definition TV {ffff: falsity_flag} (A B: smallsubset M K) :=
+    included A B /\ (TVex A B /\ TVall A B).
 
     Lemma eval_comm_closure:
     forall (A: smallsubset M K) rho,
@@ -181,7 +182,6 @@ Section Forward.
         assumption.
       }
       exists (union siK F).
-      (* TODO: I really don't think this style of proofs is readable *)
       repeat split.
       1: reflexivity.
       all: intros phi v H.
@@ -211,7 +211,7 @@ Section Forward.
       intros ddc H.
       apply (directed_of_total_of_rightmono siK (TV_rightmono K)) in H.
       unfold DLS_on.
-      destruct (TV_fixpoint_of_directed_family (ddc (smallsubset M K) (fun _ => m0) (TV m0) H)) as [A HA].
+      destruct (TV_fixpoint_of_directed_family (ddc _ (fun _ => m0) (TV m0) H)) as [A HA].
       exists (Build_model (interp_on_closure A)).
       split.
       - exists (closure A).

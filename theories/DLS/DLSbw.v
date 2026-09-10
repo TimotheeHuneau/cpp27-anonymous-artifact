@@ -14,7 +14,6 @@ Section Unification.
   Context {n: nat}.
   Context {T: Type}.
 
-  (* Interpretation of function symbols when there are none *)
   Definition I_0f X: forall f: s_0f, vec X (ar_syms f) -> X :=
   fun f => match f: False with end.
   Arguments I_0f _: clear implicits.
@@ -95,12 +94,12 @@ Section Specific_forms.
     destruct (Hb tt (fun _ => x)) as [Hb' _]; simpl in Hb'; unfold I_TPn in Hb'.
     exact (Hb' hdr).
   Qed.
-  Theorem DDC_of_DLS1 {K} {x: inhab K}:
+  Theorem DDC_of_DLS1 {K} {k0: inhab K}:
   DLS s_0f (s_1P2) K -> DDC K.
   Proof.
     rewrite DLS_eqv_DLS'.
     intros dls.
-    apply (psi_DDC_prop x).
+    apply (psi_DDC_prop k0).
     apply blurring_of_DLS.
     apply dls.
   Qed.
@@ -116,13 +115,12 @@ Section Specific_forms.
     intros he.
     exact (Hb' he).
   Qed.
-  Theorem BEP_of_DLS1 {K} {x: inhab K}:
+  Theorem BEP_of_DLS1 {K} {k0: inhab K}:
   DLS s_0f s_1P1 K -> BEP K.
   Proof.
-
     rewrite DLS_eqv_DLS'.
     intros dls.
-    apply (psi_BEP_prop x).
+    apply (psi_BEP_prop k0).
     apply blurring_of_DLS.
     apply dls.
   Qed.
@@ -138,12 +136,12 @@ Section Specific_forms.
     intros ha.
     exact (Hb' ha).
   Qed.
-  Theorem BDP_of_DLS1 {K} {x: inhab K}:
+  Theorem BDP_of_DLS1 {K} {k0: inhab K}:
   DLS s_0f s_1P1 K -> BDP K.
   Proof.
     rewrite DLS_eqv_DLS'.
     intros dls.
-    apply (psi_BDP_prop x).
+    apply (psi_BDP_prop k0).
     apply blurring_of_DLS.
     apply dls.
   Qed.
@@ -159,12 +157,12 @@ Section Specific_forms.
     destruct (Hb x' (fun _ => x)) as [Hb' _]; simpl in Hb'; unfold I_TPn in Hb'.
     apply (Hb' (htr x')).
   Qed.
-  Theorem BAC_of_DLSK {K} {x: inhab K}:
+  Theorem BAC_of_DLSK {K} {k0: inhab K}:
   DLS s_0f (s_XPn K 1) K -> BAC K.
   Proof.
     rewrite DLS_eqv_DLS'.
     intros dls.
-    apply (psi_BAC_prop x).
+    apply (psi_BAC_prop k0).
     apply blurring_of_DLS.
     apply dls.
   Qed.

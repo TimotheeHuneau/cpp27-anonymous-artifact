@@ -5,9 +5,8 @@ Require Import FOL.DLS.Utils.
 
 Section Defs.
 
-  Context {s_f: funcs_signature} {s_P: preds_signature}.
-
-  Definition interp_of_retract {A B: Type}:
+  Definition interp_of_retract {s_f: funcs_signature} {s_P: preds_signature}
+  {A B: Type}:
   A ≤R B -> interp A -> interp B.
   Proof.
     intros [i s o] [A_func A_atom].

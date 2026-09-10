@@ -137,7 +137,6 @@ Section DLS.
    #[global] Arguments DLS  _ _ _, {_ _} _.
 
 End DLS.
-
 Section MainStatement.
 
   Definition DLS_iff_BEP_BDP_BAC_DDC := forall K, inhabited (strongInf K) ->

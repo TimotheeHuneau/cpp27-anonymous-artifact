@@ -11,9 +11,6 @@ Definition scons {X: Type} (x : X) (xi : nat -> X) :=
 Definition funcomp {X Y Z} (g : Y -> Z) (f : X -> Y)  :=
   fun x => g (f x).
 
-
-(* Signatures are a record to allow for easier definitions of general transformations on signatures *)
-
 Class funcs_signature :=
   { syms : Type; ar_syms : syms -> nat }.
 
@@ -163,4 +160,3 @@ Module FullSyntax.
   Notation "A ↔ B" := ((A → B) ∧ (B → A)) (at level 43) : full_syntax.
 
 End FullSyntax.
-
