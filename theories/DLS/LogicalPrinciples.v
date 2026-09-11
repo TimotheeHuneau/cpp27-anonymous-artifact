@@ -17,11 +17,47 @@ Section BelowAC.
     exact hdR.
   Qed.
 
-  Lemma AC_K_iff_AC_K_K_and_BAC_K: forall K, inhab K ->
+  Lemma BAC_of_AC:
+  forall K, inhab K ->
+  forall Y, inhab Y ->
+  AC_on K Y -> BAC_on K Y.
+  Proof.
+    intros K k0 Y y0 ac R htR.
+    destruct (ac _ htR) as [f hf].
+    exists f.
+    intros k. exists k. apply hf.
+  Qed.
+
+  Lemma AC_K_Y_iff_AC_K_K_and_BAC_K_Y:
+  forall K, inhab K ->
+  forall Y, inhab Y ->
+  (BAC_on K Y /\ AC_on K K) -> AC_on K Y.
+  Proof.
+    intros K k0 Y y0 [bac ac] R htR.
+    destruct (bac R htR) as [f hf].
+    destruct (ac (fun k k' => R k (f k')) hf) as [g hg].
+    exists (fun k => f (g k)).
+    exact hg.
+  Qed.
+
+  Lemma AC_K_iff_BAC_K_of_AC_K_K:
+  forall K, inhab K ->
+  AC_on K K ->
+  (BAC K <-> AC K).
+  Proof.
+    intros K k0 acKK. split.
+    - intros bac Y y0. refine (AC_K_Y_iff_AC_K_K_and_BAC_K_Y _ _ _ _ (conj _ _)).
+      + apply (bac _ _).
+      + apply acKK.
+    - intros ac Y y0. refine (BAC_of_AC _ _ _ _ (ac _ _)).
+  Qed.
+
+  Lemma AC_K_iff_AC_K_K_and_BAC_K:
+  forall K, inhab K ->
   (AC K <->
   (BAC K /\ AC_on K K)).
   Proof.
-    intros K siK. split.
+    intros K k0. split.
     - intros ac. split.
       + intros Y y0 R htR.
         destruct (ac _ _ R htR) as [f hf].
@@ -35,7 +71,7 @@ Section BelowAC.
       exact hg.
   Qed.
 
-  Lemma DC_of_DDC_K_and_AC_K {K} `{siK: strongInf K}:
+  Lemma DC_of_DDC_K_and_AC_K {K} {siK: strongInf K}:
   (DDC K /\ AC K) -> DC.
   Proof.
     intros [ddc ac] Y y0 R htR.
@@ -117,6 +153,42 @@ Section BelowAC.
 End BelowAC.
 Section BelowLEM.
 
+  Lemma prv_BEP_K_K {K}:
+  BEP_on K K.
+  Proof.
+    intros P.
+    exists id.
+    exact id.
+  Qed.
+
+  Lemma prv_BDP_K_K {K}:
+  BDP_on K K.
+  Proof.
+    intros P.
+    exists id.
+    exact id.
+  Qed.
+
+  Lemma BEP_mono {K K'} {r: K ≤R K'}:
+  forall X, inhab X ->
+  BEP_on K X -> BEP_on K' X.
+  Proof.
+    intros X _ bep P.
+    destruct (bep P) as [w hw].
+    exists (fun k' => w (retr_s r k')).
+    intros H; destruct (hw H) as [k hk]; exists (retr_i r k); rewrite retr_o; apply hk.
+  Qed. 
+
+  Lemma BDP_mono {K K'} {r: K ≤R K'}:
+  forall X, inhab X ->
+  BDP_on K X -> BDP_on K' X.
+  Proof.
+    intros X _ bdp P.
+    destruct (bdp P) as [w hw].
+    exists (fun k' => w (retr_s r k')).
+    intros H; apply hw; intros k; specialize (H (retr_i r k)); rewrite retr_o in H; apply H.
+  Qed.
+
   Lemma EP_iff_BEP_unit:
   EP <-> BEP unit.
   Proof.
@@ -136,25 +208,6 @@ Section BelowLEM.
     - exists (fun _ => w); intros H. apply hw, H, tt.
     - exists (w tt); intros H. apply hw; intros []; apply H.
   Qed.
-
-  Lemma BEP_mono {K K'} {r: K ≤R K'}:
-  BEP K -> BEP K'.
-  Proof.
-    intros lp X x0 P.
-    destruct (lp _ _ P) as [w hw].
-    exists (fun k' => w (retr_s r k')).
-    intros H; destruct (hw H) as [k hk]; exists (retr_i r k); rewrite retr_o; apply hk.
-  Qed. 
-
-  Lemma BDP_mono {K K'} {r: K ≤R K'}:
-  BDP K -> BDP K'.
-  Proof.
-    intros lp X x0 P.
-    destruct (lp _ _ P) as [w hw].
-    exists (fun k' => w (retr_s r k')).
-    intros H; apply hw; intros k; specialize (H (retr_i r k)); rewrite retr_o in H; apply H.
-  Qed. 
-
 
   Lemma LEM_of_BEP_and_MP: forall B, BEP B /\ GMP B -> LEM.
   Proof.
@@ -203,23 +256,22 @@ Section BelowLEM.
 End BelowLEM.
 Section OmniscientChoiceAxiom.
 
-  Fact AC_and_EP_of_OAC:
-  forall K, inhab K ->
-  OAC K -> (AC K /\ EP).
+  Lemma DDC_of_ODDC {K}:
+  ODDC K -> DDC K.
   Proof.
-    intros K k0 oac.
-    split.
-    + intros Y y0 R htR.
-      destruct (oac _ _ R) as [f hf].
-      exists f.
-      apply (hf htR).
-    + intros X x0 P. unfold OAC, OAC_on in oac.
-      destruct (oac X _ (fun _ z => P z)) as [w hw].
-      exists (w k0).
-      intros [x hx].
-      apply hw.
-      intros _.
-      exists x. apply hx.
+    intros oddc Y y0 R hdR.
+    destruct (oddc _ _ R) as [f hf].
+    exists f.
+    apply (hf hdR).
+  Qed.
+
+  Lemma BAC_of_OBAC {K}:
+  OBAC K -> BAC K.
+  Proof.
+    intros obac Y y0 R htR.
+    destruct (obac _ _ R) as [f hf].
+    exists f.
+    apply (hf htR).
   Qed.
 
   Fact OBAC_iff_BAC_and_BEP: forall K, strongInf K ->
@@ -254,6 +306,25 @@ Section OmniscientChoiceAxiom.
       destruct (hk1 k) as [k2 hk2].
       exists (retr_i z (k1, k2)). rewrite retr_o.
       apply hk2.
+  Qed.
+
+  Fact AC_and_EP_of_OAC:
+  forall K, inhab K ->
+  OAC K -> (AC K /\ EP).
+  Proof.
+    intros K k0 oac.
+    split.
+    + intros Y y0 R htR.
+      destruct (oac _ _ R) as [f hf].
+      exists f.
+      apply (hf htR).
+    + intros X x0 P. unfold OAC, OAC_on in oac.
+      destruct (oac X _ (fun _ z => P z)) as [w hw].
+      exists (w k0).
+      intros [x hx].
+      apply hw.
+      intros _.
+      exists x. apply hx.
   Qed.
 
 End OmniscientChoiceAxiom.
