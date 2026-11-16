@@ -30,8 +30,8 @@ Section Defs.
   Definition union (A: K -> smallsubset): smallsubset :=
   (fun k => let (k1, k2) := retr_s z k in A k1 k2).
 
-  Definition rightmono (R: smallsubset -> smallsubset -> Prop) :=
-  forall A B C, R A B -> included B C -> R A C.
+  Definition rightmono {J} (R: J -> smallsubset -> Prop) :=
+  forall j B C, R j B -> included B C -> R j C.
 
 End Defs.
 Arguments smallsubset X K: clear implicits.

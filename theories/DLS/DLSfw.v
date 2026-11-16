@@ -16,22 +16,19 @@ Section TarskiVaught.
     Context {K: Type}.
     Context (siK: strongInf K).
     Context (r: s_f + s_P ≤R K).
-    Abbreviation p := (X_add_X_retr_X_of_si_X siK).
-    Abbreviation z := (X_mul_X_retr_X_of_si_X siK).
     Abbreviation k0 := (X_of_si_X siK).
 
-    Definition TVall {ffff: falsity_flag} (A B: smallsubset M K) :=
+    Definition TVall {fff: falsity_flag} (A B: smallsubset M K) :=
     forall (phi: form) (va: vec (termK K) (form_max_var (∀ phi))),
     (forall b: K, (sat' m0 phi (cons _ (B b) _ (map (closure A) va)))) ->
     (sat' m0 (∀ phi) (map (closure A) va)).
 
-    Definition TVex {ffff: falsity_flag} (A B: smallsubset M K) :=
+    Definition TVex {fff: falsity_flag} (A B: smallsubset M K) :=
     forall (phi: form) (va: vec (termK K) (form_max_var (∃ phi))),
     (sat' m0 (∃ phi) (map (closure A) va)) ->
     (exists b: K, (sat' m0 phi (cons _ (B b) _ (map (closure A) va)))).
 
-    Definition TV {ffff: falsity_flag} (A B: smallsubset M K) :=
-    included A B /\ (TVex A B /\ TVall A B).
+    Definition TV {fff: falsity_flag} (A B: smallsubset M K) := included A B /\ (TVex A B /\ TVall A B).
 
     Lemma eval_comm_closure:
     forall (A: smallsubset M K) rho,
@@ -142,16 +139,15 @@ End TarskiVaught.
 
 Section Forward.
 
-  Context {fff: falsity_flag}.
+  (* Context {fff: falsity_flag}. *)
+  Existing Instance falsity_on.
   Context {s_f: funcs_signature}.
   Context {s_P: preds_signature}.
-  Context `{p0: inhab s_P}.
 
   Context {K: Type}.
-  Context (r: s_f + s_P ≤R K).
+  Context (Rsf: s_f + s_P ≤R K).
+  Context (RsP: s_P ≤R K).
   Context (siK: strongInf K).
-  Abbreviation p := (X_add_X_retr_X_of_si_X siK).
-  Abbreviation z := (X_mul_X_retr_X_of_si_X siK).
   Abbreviation k0 := (X_of_si_X siK).
 
   Section FixM.
@@ -211,7 +207,7 @@ Section Forward.
       intros ddc H.
       apply (directed_of_total_of_rightmono siK (TV_rightmono K)) in H.
       unfold DLS_on.
-      destruct (TV_fixpoint_of_directed_family (ddc _ (fun _ => m0) (TV m0) H)) as [A HA].
+      destruct (TV_fixpoint_of_directed_family (ddc (smallsubset M K) (fun _ => m0) (TV m0) H)) as [A HA].
       exists (Build_model (interp_on_closure A)).
       split.
       - exists (closure A).
@@ -275,6 +271,26 @@ Section Forward.
       apply H. reflexivity. 
     Qed.
 
+    Fact Rex_rightmono {A: smallsubset M K}:
+    rightmono (Rex A).
+    Proof.
+      intros [phi v] B C HRex [i hi] H.
+      destruct (HRex H) as [b hb].
+      exists (i b).
+      rewrite hi in hb.
+      exact hb.
+    Qed.
+
+    Fact Rall_rightmono {A: smallsubset M K}:
+    rightmono (Rall A).
+    Proof.
+      intros [phi v] B C HRall [i hi] H.
+      apply HRall; intros b.
+      specialize (H (i b)).
+      rewrite hi.
+      exact H.
+    Qed.
+
     Lemma TV_total_of_BAC_BEP_BDP:
     BAC K ->
     BEP K ->
@@ -299,24 +315,16 @@ Section Forward.
       exists (bunion siK A (bunion siK Be Ba)).
       repeat split; [ apply l_included_bunion | | ].
       - refine (TVex_rightmono _ _ Be _ _ _).
-        + intros phi v H.
+        + intros phi v.
           destruct (hgEx (retr_i R (existT _ phi v))) as [j hj].
-          rewrite retr_o in hj.
-          destruct (included_union siK gEx j) as [iota hiota].
-          destruct (hj H) as [a' ha'].
-          exists (iota a').
-          rewrite hiota in ha'.
-          assumption.
+          refine (Rex_rightmono (existT _ phi v) (gEx j) _ _ (included_union _ _ _)).
+          rewrite retr_o in hj. exact hj.
         + transitivity (bunion siK Be Ba); [ apply l_included_bunion | apply r_included_bunion ].
       - refine (TVall_rightmono _ _ Ba _ _ _).
-        + intros phi v H.
+        + intros phi v.
           destruct (hgAll (retr_i R (existT _ phi v))) as [j hj].
-          rewrite retr_o in hj.
-          destruct (included_union siK gAll j) as [iota hiota].
-          apply hj. intros a'.
-          specialize (H (iota a')).
-          rewrite hiota.
-          assumption.
+          refine (Rall_rightmono (existT _ phi v) (gAll j) _ _ (included_union _ _ _)).
+          rewrite retr_o in hj. exact hj.
         + transitivity (bunion siK Be Ba); [ apply r_included_bunion | apply r_included_bunion ].
     Qed.
 

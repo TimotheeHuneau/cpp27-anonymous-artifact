@@ -1,3 +1,5 @@
+(* The goal of this file is to work out some results on
+the logic side of the reverse analysis *)
 Require Import FOL.DLS.Defs.
 Require Import FOL.DLS.Retracts.
 
@@ -148,6 +150,17 @@ Section BelowAC.
     exists (retr_i r k0).
     rewrite retr_o.
     exact hk0.
+  Qed.
+
+  Lemma AC_mono {K K'} {r: K ≤R K'}:
+  AC K' -> AC K.
+  Proof.
+    intros ac Y y0 R htR.
+    destruct (ac _ _ (fun k' y => R (retr_s r k') y)) as [f hf].
+    intros k'. destruct (htR (retr_s r k')) as [y hy]. exists y. exact hy.
+    exists (fun k => f (retr_i r k)).
+    intros k. specialize (hf (retr_i r k)).
+    rewrite retr_o in hf. exact hf.
   Qed.
 
 End BelowAC.

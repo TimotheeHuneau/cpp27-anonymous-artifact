@@ -8,6 +8,6 @@ eval $(opam env)
 make
 ```
 
-Our proof is contained in the `DLS` file.
+Our proof is contained in the `DLS` folder.
 
 Material in the `Core` file is from the first-order logic library, trimmed to quicken compilation time the the bare necessity.

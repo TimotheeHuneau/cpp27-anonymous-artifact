@@ -13,6 +13,11 @@ Hint Mode retract ! ! : typeclass_instances.
 Hint Mode strongInf + : typeclass_instances.
 Hint Mode inhab + : typeclass_instances.
 
+#[global] Instance id_strongInf {K} `{strongInf K}: list K ≤R K.
+Proof.
+  exact H.
+Qed.
+
 Section ElementaryOperations.
   (* These definitions are voluntarily ended with `Qed` rather than `Defined`. *)
 
@@ -122,14 +127,59 @@ Section ElementaryOperations.
         end)).
   Qed.
 
+  #[global] Instance sum_distr_mul_retr {A B C}: (A * C + B * C) ≤R (A + B) * C.
+  Proof.
+    exact (Build_retract
+      (fun s => match s with
+      | inl (a, c) => (inl a, c)
+      | inr (b, c) => (inr b, c)
+      end)
+      (fun s => match s with
+      | (inl a, c) => inl (a, c)
+      | (inr b, c) => inr (b, c)
+      end)
+      (fun s => match s with
+      | inl (a, c) => eq_refl
+      | inr (b, c) => eq_refl
+      end)).
+  Qed.
+
+   #[global] Instance sum_assoc_retr {A B C}: (A + B + C) ≤R A + (B + C).
+  Proof.
+    exact (Build_retract
+      (fun s => match s with
+      | inl (inl a) => inl a
+      | inl (inr b) => inr (inl b)
+      | inr c => inr (inr c)
+      end)
+      (fun s => match s with
+      | inl a => inl (inl a)
+      | inr (inl b) => inl (inr b)
+      | inr (inr c) => inr c
+      end)
+      (fun s => match s with
+      | inl (inl a) => eq_refl
+      | inl (inr b) => eq_refl
+      | inr c => eq_refl
+      end)).
+  Qed.
+
+
 End ElementaryOperations.
 
-#[global] Instance unit_retr_inhab {X} {x0: inhab X} : unit ≤R X.
+#[global] Instance unit_retr_inhab {K} {k0: inhab K}: unit ≤R K.
 Proof.
-  exact (Build_retract
-    (fun u => match u with | tt => x0 end)
-    (fun _ => tt)
-    (fun u => match u with | tt => eq_refl tt end)).
+  refine (Build_retract (fun _ => k0) (fun _ => tt) (fun u => match u with | tt => eq_refl end)).
+Qed.
+
+#[global] Instance inhab_retr {X Y} {x0: inhab X} `{R: X ≤R Y}: inhab Y.
+Proof.
+  exact (retr_i R x0).
+Qed.
+
+Instance retr_inhab {X Y} {y0: inhab Y} `{R: X ≤R Y}: inhab X.
+Proof.
+  exact (retr_s R y0).
 Qed.
 
 #[global] Instance inhab_unit : inhab unit := tt.

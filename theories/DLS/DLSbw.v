@@ -2,7 +2,7 @@ Require Import FOL.Core.Models.
 Require Import FOL.DLS.Retracts.
 Require Import FOL.DLS.Defs.
 Require Import FOL.DLS.Utils.
-Require Import FOL.DLS.Signatures.
+Require Export FOL.DLS.Signatures.
 Require Import FOL.DLS.DLSalt.
 
 Existing Instance falsity_on.
@@ -10,10 +10,10 @@ Existing Instance s_0f.
 
 Section Unification.
 
-  Context {fff: falsity_flag}.
   Context {n: nat}.
   Context {T: Type}.
 
+  (* Interpretation of function symbols when there are none *)
   Definition I_0f X: forall f: s_0f, vec X (ar_syms f) -> X :=
   fun f => match f: False with end.
   Arguments I_0f _: clear implicits.

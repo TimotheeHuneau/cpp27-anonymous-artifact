@@ -1,6 +1,7 @@
 From Stdlib Require Import Lia.
 From Stdlib Require Import List.
 From Stdlib Require Import Vector.
+From Stdlib Require Import Logic.Eqdep_dec.
 Require Import FOL.Core.Models.
 Require Import FOL.DLS.Retracts.
 Require Import FOL.DLS.Utils.
@@ -28,9 +29,11 @@ Section Form.
 
   Context {s_f: funcs_signature}.
   Context {s_P: preds_signature}.
-  Context (p0: s_P).
-  #[local] Definition psi00 {fff: falsity_flag} := atom p0 (const ($0) (ar_preds p0)).
 
+  Section FixFalsityFlag.
+  Context {fff: falsity_flag}.
+  Context (psi00: form fff).
+  
   Equations sizef {fff: falsity_flag} (phi: form): nat :=
   sizef falsity := 0 ;
   sizef (atom _ v) := 0 ;
@@ -44,19 +47,16 @@ Section Form.
   linearisef falsity := [inl 0] ;
   linearisef (atom P v) := [inr (existT _ P v)] ;
   linearisef (bin b phi1 phi2) := inl (tradbinop b) :: linearisef phi1 ++ linearisef phi2 ;
-  linearisef (quant q psi) := inl (tradquantop q) :: linearisef psi.    
+  linearisef (quant q psi) := inl (tradquantop q) :: linearisef psi.
 
-  Equations parsef' {fff: falsity_flag}
+  Equations parsef'
   (l: list (nat + (sigT (fun p: s_P => vec term (ar_preds p))))):
   form * {lo: list (nat + (sigT (fun p: s_P => vec term (ar_preds p)))) | length lo <= length l}
   by wf (length l) :=
   parsef' ([]) := (psi00, (exist _ ([]) _)) ;
   parsef' (inr (existT _ P v) :: ns) := (atom P v, (exist _ ns _)) ;
   parsef' (inl 0 :: ns) :=
-    match fff with
-    | falsity_on => (falsity, exist _ ns _)
-    | falsity_off => (psi00, exist _ ns _)
-    end ;
+    (psi00, exist _ ns _) ;
   parsef' (inl 1 :: ns) :=
     match parsef' ns with
     | pair phi1 (exist _ l1 _) =>
@@ -94,26 +94,31 @@ Section Form.
       all: unfold parsef'_functional at 1.
       1: destruct l as [|[[|[|[|[|[|[|]]]]]]|[]]]. all: try reflexivity.
       red. intros [] f g H.
-      unfold parsef'_functional.
-      destruct pr2 as [|[[|[|[|[|[|[|]]]]]]|[]]]. all: try reflexivity.
+      unfold parsef'_functional. all: try reflexivity.
+      1: destruct s as [[|[|[|[|[|[|]]]]]]|[]]. all: try reflexivity.
       all: rewrite H. all: destruct g as (? & ? & ?). all: try reflexivity.
       all: rewrite H. all: destruct g as (? & ? & ?). all: reflexivity.
   Defined.
 
+  End FixFalsityFlag.
+
+  Import EqNotations.
   Context {fff: falsity_flag}.
+  Context (psi00: form).
+  Context (Hpsi00: forall e: falsity_on = fff, rew e in falsity = psi00).
 
   Definition parsef l: form * list (nat + (sigT (fun p: s_P => vec term (ar_preds p)))) :=
-  match parsef' l with | pair phi (exist _ lo _) => (phi, lo) end.
+  match parsef' psi00 l with | pair phi (exist _ lo _) => (phi, lo) end.
 
-  Lemma parsef'_prop {f: falsity_flag} (phi: form):
+  Lemma parsef'_prop (phi: form):
   forall (l: list (nat + (sigT (fun p: s_P => vec term (ar_preds p))))),
-    exists H, parsef' (linearisef phi ++ l) = (phi, exist _ l H).
+    exists H, parsef' psi00 (linearisef phi ++ l) = (phi, exist _ l H).
   Proof.
     induction phi as [phi ih] using (well_founded_induction
       (Inverse_Image.wf_inverse_image _ _ _ sizef Wf_nat.lt_wf)).
     destruct phi as [|ffff P v|ffff b phi1 phi2|ffff q psi].
     all: intros l; simp linearisef; cbn.
-    - eexists. simp parsef'. reflexivity.
+    - eexists. simp parsef'. specialize (Hpsi00 eq_refl). simpl in Hpsi00. subst psi00. reflexivity.
     - eexists. simp parsef'. reflexivity.
     - rewrite <-app_assoc.
       edestruct (ih phi1) as [? e1]. { simp sizef. lia. }
@@ -130,7 +135,7 @@ Section Form.
     parsef (linearisef phi ++ l) = (phi, l).
   Proof.
     intros. unfold parsef.
-    edestruct parsef'_prop as [H ->].
+    edestruct parsef'_prop as [_ ->].
     reflexivity.
   Qed.
 
@@ -143,9 +148,6 @@ Section TermK.
   Context {K: Type}.
   Context `{siK: strongInf K}.
   Abbreviation k0 := (X_of_si_X siK).
-  Abbreviation z := (X_mul_X_retr_X_of_si_X siK).
-  Abbreviation p := (X_add_X_retr_X_of_si_X siK).
-  Abbreviation R := (nat_retr_X_of_si_X siK).
 
   Context (s_f: funcs_signature).
 
@@ -212,7 +214,7 @@ Section TermK.
   ((cons _ (varK a) _ (fst (parseTK k ns))), snd (parseTK k ns)).
   Proof.
       unfold parseTK.
-      simp parseTK'. 
+      simp parseTK'.
       destruct (parseTK' k ns) as [vk [lk hk]].
       reflexivity.
   Qed.
@@ -223,14 +225,14 @@ Section TermK.
   Proof.
       unfold parseTK.
       simp parseTK'.
-      destruct (parseTK' (ar_syms f) ns) as [v1 [l1 h1]]; simpl. 
+      destruct (parseTK' (ar_syms f) ns) as [v1 [l1 h1]]; simpl.
       destruct (parseTK' k l1) as [vk [lk hk]].
       reflexivity.
   Qed.
 
   Lemma parseTK_prop (v': sigT (vec termK)):
   forall (l: list (K + s_f)),
-  let (n, v) := v' in 
+  let (n, v) := v' in
   parseTK n (lineariseTK_many v ++ l) = (v, l).
   Proof.
     induction v' as [v' ih] using (well_founded_induction
@@ -307,17 +309,20 @@ Section TermForm.
       rewrite map_map, (map_ext_in _ _ _ id _ _ ih). { apply map_id. }
   Qed.
 
-  #[global] Instance form_retr_list'
-  {fff: falsity_flag} {s_f: funcs_signature} {s_P: preds_signature} {p0: inhab s_P}:
-  form ≤R list (nat + (sigT (fun p: s_P => vec term (ar_preds p)))).
+  Existing Instance falsity_on.
+
+  #[global] Instance form_retr_list
+  {s_f: funcs_signature} {s_P: preds_signature}:
+  form s_f s_P ≤R list (nat + (sigT (fun p: s_P => vec term (ar_preds p)))).
   Proof.
     refine (Build_retract
       (linearisef (s_f:=s_f) (s_P:=s_P))
-      (fun x => fst (parsef p0 x))
+      (fun x => fst (parsef falsity x))
       _).
-    intros x. 
+    intros x.
     rewrite <-(app_nil_r (linearisef x)), parsef_prop.
-    reflexivity.
+    - reflexivity.
+    - intros e. apply eq_sym, eq_rect_eq_dec, ff_dec.
   Qed.
 
   #[global] Instance termK_mono_retr {s_f: funcs_signature} {K K'} (r: K ≤R K'):
@@ -337,26 +342,27 @@ Section TermForm.
 
   Context {K: Type}.
   Context (siK: strongInf K).
-  Abbreviation k0 := (X_of_si_X siK).
-  Abbreviation p := (X_add_X_retr_X_of_si_X siK).
-  Abbreviation z := (X_mul_X_retr_X_of_si_X siK).
-  Abbreviation R := (nat_retr_X_of_si_X siK).
 
   #[global] Instance term_retr_K_of_sign_retr_K
   {s_f: funcs_signature} {s_P: preds_signature}
-  `{Rs: s_f + s_P ≤R K}:
+  {Rsf: s_f + s_P ≤R K}:
   term s_f ≤R K.
   Proof.
     compose_retracts [ termK nat ; termK K ].
   Qed.
 
   #[global] Instance form_retr_K_of_sign_retr_K
-  {fff: falsity_flag} {s_f: funcs_signature} {s_P: preds_signature}
-  `{p0: inhab s_P}
-  `{Rs: s_f + s_P ≤R K}:
+  {s_f: funcs_signature} {s_P: preds_signature}
+  {Rsf: s_f + s_P ≤R K}:
   form s_f s_P ≤R K.
   Proof.
-    compose_retracts [ list (nat + {p : s_P & vec term (ar_preds p)}) ].
+    pose proof (r := comp_retr K _ _ : nat ≤R K + s_f * K).
+    compose_retracts [
+      list (nat + {p : s_P & vec term (ar_preds p)}) ;
+      list (nat + s_P * K) ;
+      list (K + (s_f * K) + (s_P * K)) ;
+      list (K + ((s_f * K) + (s_P * K))) ;
+      list (K + (s_f + s_P) * K)].
   Qed.
 
 End TermForm.

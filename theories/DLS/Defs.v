@@ -1,8 +1,10 @@
 From Stdlib Require Import Classes.Morphisms.
 Require Export FOL.Core.Models.
 
+(* The following states the existence of a formula: ⊥*)
 Existing Instance falsity_on.
 
+(* Size comparisons of types *)
 Section Retracts.
 
   Class retract (A B: Type): Type := {
@@ -18,6 +20,7 @@ Section Retracts.
 End Retracts.
 Notation "A ≤R B" := (retract A B) (at level 80).
 
+(* Properties of relations *)
 Section Properties.
 
   Definition totalR {X Y: Type} (R: X -> Y -> Prop) :=
@@ -106,7 +109,7 @@ Section LogicalPrinciples.
 End LogicalPrinciples.
 Section DLS.
 
-  Context {fff: falsity_flag}.
+  Existing Instance falsity_on.
 
   Definition DLS'_on
     {s_f: funcs_signature}
@@ -136,12 +139,21 @@ Section DLS.
     forall (M: model), M -> DLS_on K M.
    #[global] Arguments DLS  _ _ _, {_ _} _.
 
+  Definition DLS_full' K {k0: inhab K}:=
+  forall (s_f: funcs_signature) (s_P: preds_signature),
+  s_f + s_P ≤R K -> DLS' K.
+
+  Definition DLS_full K {k0: inhab K}:=
+  forall (s_f: funcs_signature) (s_P: preds_signature),
+  s_f + s_P ≤R K -> DLS K.
+
 End DLS.
+
 Section MainStatement.
 
   Definition DLS_iff_BEP_BDP_BAC_DDC := forall K, inhabited (strongInf K) ->
   ((BDP K /\ BEP K) /\ (DDC K /\ BAC K)) <->
-  (forall (s_f: funcs_signature) (s_P: preds_signature), inhab s_P ->
+  (forall (s_f: funcs_signature) (s_P: preds_signature),
     s_f + s_P ≤R K -> DLS K).
 
 End MainStatement.

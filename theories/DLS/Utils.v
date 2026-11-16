@@ -3,6 +3,17 @@ From Stdlib Require Import Classes.Morphisms.
 Require Import FOL.Core.Models.
 Require Import FOL.DLS.Defs.
 
+Section FalsityFlag.
+
+  Lemma ff_dec: forall x y: falsity_flag, {x = y} + {x <> y}.
+  Proof.
+    intros [|] [|].
+    1,4: left; reflexivity.
+    all: right; intros e; discriminate e.
+  Qed.
+
+End FalsityFlag.
+
 Section Feq.
 
   Definition feq {X Y} (f g: X -> Y) :=
@@ -25,8 +36,9 @@ Section Feq.
 
   #[export] Instance feq_eq {X Y: Type}: Equivalence (feq (X:=X) (Y:=Y)).
   Proof.
-    exact (Build_Equivalence feq feq_refl feq_sym feq_trans).
+    exact (Build_Equivalence feq _ _ _).
   Qed.
+
 End Feq.
 
 Section Enveq.
