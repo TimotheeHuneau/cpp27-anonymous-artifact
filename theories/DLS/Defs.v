@@ -137,13 +137,13 @@ Section DLS.
     {s_P: preds_signature}
     (K: Type) :=
     forall (M: model), M -> DLS_on K M.
-   #[global] Arguments DLS  _ _ _, {_ _} _.
+  #[global] Arguments DLS  _ _ _, {_ _} _.
 
-  Definition DLS_full' K {k0: inhab K}:=
+  Definition DLS_full' K :=
   forall (s_f: funcs_signature) (s_P: preds_signature),
   s_f + s_P ≤R K -> DLS' K.
 
-  Definition DLS_full K {k0: inhab K}:=
+  Definition DLS_full K :=
   forall (s_f: funcs_signature) (s_P: preds_signature),
   s_f + s_P ≤R K -> DLS K.
 
@@ -152,8 +152,6 @@ End DLS.
 Section MainStatement.
 
   Definition DLS_iff_BEP_BDP_BAC_DDC := forall K, inhabited (strongInf K) ->
-  ((BDP K /\ BEP K) /\ (DDC K /\ BAC K)) <->
-  (forall (s_f: funcs_signature) (s_P: preds_signature),
-    s_f + s_P ≤R K -> DLS K).
+  ((BDP K /\ BEP K) /\ (DDC K /\ BAC K)) <-> (DLS_full K).
 
 End MainStatement.
