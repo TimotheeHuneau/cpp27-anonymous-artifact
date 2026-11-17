@@ -16,6 +16,6 @@ DLS/Utils.v
 DLS/Signatures.v
 DLS/SubsetsDefs.v
 DLS/DLSfw.v
-DLS/DLSbw.v
 DLS/DLSalt.v
+DLS/DLSbw.v
 DLS/ReverseAnalysisDLS.v
